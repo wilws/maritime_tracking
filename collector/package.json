@@ -20,6 +20,7 @@
     "typescript": "^7.0.2"
   },
   "dependencies": {
+    "@aws-sdk/client-kinesis": "^3.1134.0",
     "dotenv": "^17.4.2",
     "ws": "^8.21.3"
   }

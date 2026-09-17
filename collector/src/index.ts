@@ -1,14 +1,11 @@
-import { fileURLToPath } from "node:url";
-import { dirname, resolve } from "node:path";
-import dotenv from "dotenv";
+// Must come first: loads .env before any other module reads process.env.
+import "./config.js";
+
 import WebSocket from "ws";
 
 import { normalise, navStatusLabel, HEADING_UNKNOWN } from "./normalise.js";
 import type { AisStreamMessage } from "./types.js";
-
-
-const pwd = dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: resolve(pwd, "../../.env") });
+import { sendToKinesis, kinesisStats } from "./kinesis.js";
 
 const WS_ENDPOINT = "wss://stream.aisstream.io/v0/stream";
 
@@ -58,6 +55,11 @@ function connect(): void {
     const vessel = normalise(raw);
     if (!vessel) return;
 
+    // Send the normalised event, not AISStream's shape — downstream consumers
+    // speak our contract and should never see Sog/Cog/padded names.
+    // sendToKinesis handles its own errors so one failure cannot stop the feed.
+    void sendToKinesis(vessel);
+
     const heading = vessel.heading === HEADING_UNKNOWN ? "  --" : `${vessel.heading.toString().padStart(3)}°`;
     console.log(
       `${vessel.shipName.padEnd(20)} ${vessel.mmsi.padEnd(10)} ` +
@@ -84,5 +86,11 @@ function connect(): void {
     setTimeout(connect, jittered);
   });
 }
+
+// Periodic Kinesis tally — enough to see the pipeline working without
+// drowning the vessel rows in one log line per record.
+setInterval(() => {
+  console.log(`── kinesis: ${kinesisStats.sent} sent, ${kinesisStats.failed} failed ──`);
+}, 10_000);
 
 connect();
