@@ -13,3 +13,8 @@ variable "kinesis_retention_period" {
 variable "kinesis_shard_count" {
     type = number
 }
+
+
+variable "dynamodb_table_name" {
+   type = string
+}

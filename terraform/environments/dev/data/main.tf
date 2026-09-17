@@ -5,3 +5,8 @@ module "kinesis" {
     kinesis_retention_period = var.kinesis_retention_period
     kinesis_stream_mode = var.kinesis_stream_mode
 }
+
+module "dynamodb" {
+    source = "../../../modules/dynamodb"
+    dynamodb_table_name = var.dynamodb_table_name
+}
