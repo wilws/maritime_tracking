@@ -1,0 +1,14 @@
+{
+  "name": "processor",
+  "version": "1.0.0",
+  "description": "Kinesis consumer — writes latest vessel state to DynamoDB",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "package": "npm run build && echo '{\"type\":\"module\"}' > dist/package.json && mkdir -p ../terraform/environments/dev/application/build && cd dist && zip -qr ../../terraform/environments/dev/application/build/lambda.zip ."
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.3",
+    "typescript": "^7.0.2"
+  }
+}

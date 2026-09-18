@@ -1,20 +1,24 @@
 variable "kinesis_stream_name" {
-  type = string
+  description = "Name of the Kinesis stream carrying raw AIS vessel events"
+  type        = string
 }
 
 variable "kinesis_stream_mode" {
-  type = string
+  description = "Capacity mode for the Kinesis stream"
+  type        = string
 }
 
 variable "kinesis_retention_period" {
-  type = number
+  description = "Retention period in hours"
+  type        = number
 }
 
 variable "kinesis_shard_count" {
-    type = number
+  description = "Number of shards when using PROVISIONED mode"
+  type        = number
 }
 
-
 variable "dynamodb_table_name" {
-   type = string
+  description = "Name of the DynamoDB table holding latest vessel state"
+  type        = string
 }

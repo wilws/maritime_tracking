@@ -1,4 +1,4 @@
 variable "dynamodb_table_name" {
-  type = string
+  description = "Name of the DynamoDB table holding latest vessel state"
+  type        = string
 }
-
