@@ -55,6 +55,26 @@ data "aws_iam_policy_document" "archiver_permissions" {
   }
 }
 
+data "aws_iam_policy_document" "broadcast_permissions" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "dynamodb:GetRecords",
+      "dynamodb:GetShardIterator",
+      "dynamodb:DescribeStream",
+      "dynamodb:ListStreams",
+    ]
+    resources = [data.terraform_remote_state.data.outputs.dynamodb_stream_arn]
+  }
+}
+
+module "iam_broadcast" {
+  source                = "../../../modules/iam"
+  iam_role_name         = var.iam_broadcast_role_name
+  iam_extra_policy_json = data.aws_iam_policy_document.broadcast_permissions.json
+}
+
+
 
 
 module "iam_processor" {
@@ -68,6 +88,8 @@ module "iam_archiver" {
   iam_role_name         = var.iam_archiver_role_name
   iam_extra_policy_json = data.aws_iam_policy_document.archiver_permissions.json
 }
+
+
 
 
 module "lambda_processor" {
@@ -93,6 +115,18 @@ module "lambda_archiver" {
   }
 }
 
+module "lambda_broadcast" {
+    source = "../../../modules/lambda"
+    lambda_function_name = var.lambda_broadcast_function_name
+    lambda_iam_role_arn = module.iam_broadcast.iam_role_arn
+
+    lambda_filename  = "${path.module}/build/broadcast.zip"
+
+    lambda_environment_variables = {
+        BROADCAST_ENDPOINT = var.broadcast_endpoint
+    }
+}
+
 resource "aws_lambda_event_source_mapping" "kinesis_archiver" {
   event_source_arn  = data.terraform_remote_state.data.outputs.kinesis_stream_arn
   function_name     = module.lambda_archiver.lambda_function_arn
@@ -103,7 +137,6 @@ resource "aws_lambda_event_source_mapping" "kinesis_archiver" {
   maximum_retry_attempts         = 3
 }
 
-
 resource "aws_lambda_event_source_mapping" "kinesis" {
   event_source_arn  = data.terraform_remote_state.data.outputs.kinesis_stream_arn
   function_name     = module.lambda_processor.lambda_function_arn
@@ -112,4 +145,13 @@ resource "aws_lambda_event_source_mapping" "kinesis" {
   batch_size                     = 10
   bisect_batch_on_function_error = true
   maximum_retry_attempts         = 3
+}
+
+resource "aws_lambda_event_source_mapping" "dynamodb_broadcast" {
+    event_source_arn = data.terraform_remote_state.data.outputs.dynamodb_stream_arn
+    function_name = module.lambda_broadcast.lambda_function_name
+    starting_position = "LATEST"
+
+  batch_size = 10
+
 }

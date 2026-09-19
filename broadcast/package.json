@@ -1,0 +1,19 @@
+{
+  "name": "broadcast",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "package": "npm run build && echo '{\"type\":\"module\"}' > dist/package.json && mkdir -p ../terraform/environments/dev/application/build && cd dist && zip -qr ../../terraform/environments/dev/application/build/broadcast.zip .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^26.6.2",
+    "typescript": "^7.0.2"
+  }
+}

@@ -8,6 +8,11 @@ variable "iam_archiver_role_name" {
   type        = string
 }
 
+variable "iam_broadcast_role_name" {
+  description = "Name of the IAM role for the broadcast Lambda"
+  type        = string
+}
+
 
 variable "lambda_function_name" {
   description = "Name of the vessel processor Lambda function"
@@ -17,5 +22,16 @@ variable "lambda_function_name" {
 
 variable "lambda_archiver_function_name" {
   description = "Name of the archiver Lambda function"
+  type        = string
+}
+
+variable "lambda_broadcast_function_name" {
+  description = "Name of the broadcast Lambda function"
+  type        = string
+}
+
+
+variable "broadcast_endpoint" {
+    description = "Next.js URL the broadcast Lambda POSTs vessel updates to"
   type        = string
 }
