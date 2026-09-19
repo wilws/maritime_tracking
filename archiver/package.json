@@ -1,0 +1,22 @@
+{
+  "name": "archiver",
+  "version": "1.0.0",
+  "description": "Kinesis consumer — writes vessel histroical data to S3",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "package": "npm run build && echo '{\"type\":\"module\"}' > dist/package.json && cd dist && npm install --omit=dev --silent @aws-sdk/client-s3 && mkdir -p ../../terraform/environments/dev/application/build && zip -qr ../../terraform/environments/dev/application/build/archiver.zip ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^26.6.2",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1136.0"
+  }
+}
