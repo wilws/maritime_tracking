@@ -5,7 +5,12 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "package": "npm run build && echo '{\"type\":\"module\"}' > dist/package.json && mkdir -p ../terraform/environments/dev/application/build && cd dist && zip -qr ../../terraform/environments/dev/application/build/lambda.zip ."
+    "package": "npm run build && echo '{\"type\":\"module\"}' > dist/package.json && cd dist && npm install --omit=dev --silent @aws-sdk/client-dynamodb @aws-sdk/lib-dynamodb && mkdir -p ../../terraform/environments/dev/application/build && zip -qr ../../terraform/environments/dev/application/build/lambda.zip ."
+
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.1134.0",
+    "@aws-sdk/lib-dynamodb": "^3.1134.0"
   },
   "devDependencies": {
     "@types/node": "^22.20.3",
