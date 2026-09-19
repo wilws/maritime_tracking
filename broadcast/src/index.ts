@@ -7,7 +7,7 @@ type StreamEvent = {
   }[];
 };
 
-// DynamoDB Streams hand back attribute-typed values ({"S": "..."}), not plain JSON
+
 const plain = (image: Record<string, any>) =>
   Object.fromEntries(
     Object.entries(image).map(([k, v]: [string, any]) => [
