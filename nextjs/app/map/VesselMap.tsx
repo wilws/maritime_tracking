@@ -107,21 +107,38 @@ export default function VesselMap({ vessels, selected, track, onSelect }: Props)
         },
       });
 
+      // Soft halo — blurred and faint, gives the dot a glow.
+      map.addLayer({
+        id: "vessel-glow",
+        type: "circle",
+        source: VESSEL_SOURCE,
+        paint: {
+          "circle-radius": ["interpolate", ["linear"], ["zoom"], 3, 10, 10, 18],
+          "circle-color": [
+            "case",
+            ["==", ["get", "moving"], 1],
+            "#4ade80",
+            "#fb7185",
+          ],
+          "circle-opacity": 0.22,
+          "circle-blur": 1,
+        },
+      });
+
+      // Solid core — small and crisp, so the position stays readable and clickable.
       map.addLayer({
         id: "vessel-dots",
         type: "circle",
         source: VESSEL_SOURCE,
         paint: {
-          "circle-radius": ["interpolate", ["linear"], ["zoom"], 3, 4, 10, 7],
+          "circle-radius": ["interpolate", ["linear"], ["zoom"], 3, 2.5, 10, 4.5],
           "circle-color": [
             "case",
             ["==", ["get", "moving"], 1],
-            "#16a34a", // under way
-            "#dc2626", // stopped or anchored
+            "#4ade80", // under way
+            "#fb7185", // stopped or anchored
           ],
-          "circle-opacity": 0.9,
-          "circle-stroke-width": 1.5,
-          "circle-stroke-color": "#ffffff",
+          "circle-opacity": 0.75,
         },
       });
 

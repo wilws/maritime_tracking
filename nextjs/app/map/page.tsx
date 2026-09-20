@@ -64,12 +64,18 @@ export default function MapPage() {
 
         <header className="pointer-events-none absolute left-14 top-3 z-10 rounded-md bg-[#0b1420]/85 px-4 py-2 backdrop-blur">
           <h1 className="text-sm font-semibold tracking-wide text-sky-300">
-            Maritime Tracking — South China Sea
+            Maritime Tracking
           </h1>
           <p className="text-xs text-slate-400">
             {vesselList.length} vessels · click a dot for its 30-day track
           </p>
         </header>
+
+        {/* Attribution — sits above the map's own OSM credit */}
+        <footer className="absolute bottom-3 left-16 z-10 rounded bg-[#0b1420]/85 px-2.5 py-1.5 text-[11px] leading-snug text-slate-400 backdrop-blur">
+          <div>© {new Date().getFullYear()} Wilson Wong · Maritime Tracking</div>
+          <div className="text-slate-500">Built by Wilson Wong</div>
+        </footer>
 
         {/* Detail card — only while a vessel is selected */}
         {selectedVessel && (
@@ -198,7 +204,7 @@ export default function MapPage() {
               <span className="flex min-w-0 items-center gap-2">
                 <span
                   className={`h-1.5 w-1.5 shrink-0 rounded-full ${
-                    v.speed > 0.5 ? "bg-emerald-500" : "bg-rose-500"
+                    v.speed > 0.5 ? "bg-emerald-400" : "bg-rose-400"
                   }`}
                 />
                 <span className="truncate text-xs text-slate-300">
