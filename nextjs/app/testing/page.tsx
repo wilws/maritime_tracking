@@ -1,7 +1,7 @@
 
 'use client'
 import { useEffect, useState } from "react";
-
+import Link from "next/link";
     
     
 
@@ -42,19 +42,13 @@ export default function Page(){
 
     },[])
 
-
-  
-
-    
-    
     return (
         <div>
          <h1>Maritime Tracking Testing Page</h1>
          {
             isConnected ? (<p>Websocket is connected</p>):(<p>WebSocket is NOT connected</p>)
-
-
          }
+         <Link href="/testing/123">Go to check vessel 123</Link>
         </div>
     )
 }

@@ -4,15 +4,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-  
     "build": "next build",
-   
     "lint": "eslint",
-    "dev": "tsx watch --env-file=.env --ignore '.next/**' server/server.ts",
-"start": "NODE_ENV=production tsx --env-file=.env server/server.ts"
-
+    "dev": "tsx watch --env-file=.env --clear-screen=false --include server/server.ts server/server.ts",
+    "start": "NODE_ENV=production tsx --env-file=.env server/server.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.1136.0",
+    "@aws-sdk/lib-dynamodb": "^3.1136.0",
+    "maplibre-gl": "^5.24.0",
     "next": "16.3.5",
     "react": "19.2.8",
     "react-dom": "19.2.8",
@@ -26,6 +26,7 @@
     "@types/ws": "^8.18.1",
     "eslint": "^9",
     "eslint-config-next": "16.3.5",
+    "playwright": "^1.63.0",
     "tailwindcss": "^4",
     "tsx": "^4.23.13",
     "typescript": "^5",

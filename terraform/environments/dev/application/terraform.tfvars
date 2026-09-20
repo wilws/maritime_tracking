@@ -8,4 +8,4 @@ lambda_function_name = "maritime-dev-vessel-processor"
 lambda_archiver_function_name = "maritime-dev-vessel-archiver"
 lambda_broadcast_function_name = "maritime-dev-vessel-broadcast"
 
-broadcast_endpoint = "http://host.docker.internal:3000/api/vessels/live"
+broadcast_endpoint = "http://host.docker.internal:3901/api/vessels/live"
