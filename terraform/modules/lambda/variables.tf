@@ -20,3 +20,8 @@ variable "lambda_environment_variables" {
   default     = {}
 }
 
+variable "lambda_architectures" {
+  description = "CPU architecture for the function; arm64 matches LocalStack on an ARM host"
+  type        = list(string)
+  default     = ["x86_64"]
+}

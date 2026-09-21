@@ -1,6 +1,7 @@
 resource "aws_lambda_function" "this" {
   function_name = var.lambda_function_name
   role          = var.lambda_iam_role_arn
+  architectures = var.lambda_architectures
 
   runtime = "nodejs20.x"
   handler = "index.handler"

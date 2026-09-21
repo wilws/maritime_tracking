@@ -94,6 +94,7 @@ module "iam_archiver" {
 
 module "lambda_processor" {
   source               = "../../../modules/lambda"
+  lambda_architectures = ["arm64"]
   lambda_function_name = var.lambda_function_name
   lambda_iam_role_arn  = module.iam_processor.iam_role_arn
   lambda_filename      = "${path.module}/build/lambda.zip"
@@ -106,6 +107,7 @@ module "lambda_processor" {
 
 module "lambda_archiver" {
   source               = "../../../modules/lambda"
+  lambda_architectures = ["arm64"]
   lambda_function_name = var.lambda_archiver_function_name
   lambda_iam_role_arn  = module.iam_archiver.iam_role_arn
   lambda_filename      = "${path.module}/build/archiver.zip"
@@ -117,6 +119,7 @@ module "lambda_archiver" {
 
 module "lambda_broadcast" {
     source = "../../../modules/lambda"
+    lambda_architectures = ["arm64"]
     lambda_function_name = var.lambda_broadcast_function_name
     lambda_iam_role_arn = module.iam_broadcast.iam_role_arn
 
